@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "840193172613",
+    "firebase_url": "https://arcboxv2.firebaseio.com",
+    "project_id": "arcboxv2",
+    "storage_bucket": "arcboxv2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840193172613:android:74cc98a3abab4af9",
+        "android_client_info": {
+          "package_name": "com.example.arthur.arcboxv2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840193172613-p4dppepvkjc1jk3p36hlfs6rmdjocbud.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.arthur.arcboxv2",
+            "certificate_hash": "A1034EB3B3A8B7A89E7959EB45A01EC02CCF1C21"
+          }
+        },
+        {
+          "client_id": "840193172613-5v0c2js71j1gkipn2i0tq9qgd15v25l3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8NrY-U_cEPD7OTsG3RJOhPTQtYKSkchE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840193172613-5v0c2js71j1gkipn2i0tq9qgd15v25l3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
