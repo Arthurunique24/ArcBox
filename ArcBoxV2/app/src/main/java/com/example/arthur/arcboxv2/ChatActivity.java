@@ -1,5 +1,7 @@
 package com.example.arthur.arcboxv2;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,15 +14,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.FirebaseDatabase;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
 import com.bumptech.glide.Glide;
 
-public class ChatActivity extends Fragment{
+public class ChatActivity extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
     private DatabaseReference mSimpleFirechatDatabaseReference;
     private FirebaseRecyclerAdapter<ChatMessage, FirechatMsgViewHolder>
@@ -34,6 +43,14 @@ public class ChatActivity extends Fragment{
     private String mPhotoUrl;
     private EditText mMsgEditText;
 
+    private GoogleApiClient mGoogleApiClient;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirechatUser;
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(getActivity(), "Google Play Services error.", Toast.LENGTH_SHORT).show();
+    }
 
 
     public static class FirechatMsgViewHolder extends RecyclerView.ViewHolder {
@@ -53,6 +70,21 @@ public class ChatActivity extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_chat, container, false);
+
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirechatUser = mFirebaseAuth.getCurrentUser();
+        if (mFirechatUser == null) {
+            startActivity(new Intent(getActivity(), AuthorizationActivity.class));
+            //finish();
+            //return;
+        } else {
+            mUsername = mFirechatUser.getDisplayName();
+            if (mFirechatUser.getPhotoUrl() != null) {
+                mPhotoUrl = mFirechatUser.getPhotoUrl().toString();
+            }
+        }
+
 
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         mMessageRecyclerView = (RecyclerView) rootView.findViewById(R.id.messageRecyclerView);

@@ -39,11 +39,13 @@ public class AuthorizationActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_authorization);
 
         anim = AnimationUtils.loadAnimation(this, R.anim.myalpha);
-        TextView tvHello, tvAuth;
+        TextView tvHello, tvAuth, tvProjBy;
         tvHello = (TextView) findViewById(R.id.tvHello);
         tvAuth = (TextView) findViewById(R.id.tvAuth);
+        tvProjBy = (TextView) findViewById(R.id.tvProjBy);
         tvHello.startAnimation(anim);
         tvAuth.startAnimation(anim);
+        tvProjBy.startAnimation(anim);
 
         mAuthButton = (SignInButton) findViewById(R.id.auth_button);
         mAuthButton.setOnClickListener(this);

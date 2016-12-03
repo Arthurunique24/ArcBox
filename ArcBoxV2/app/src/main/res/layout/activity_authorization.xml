@@ -35,4 +35,12 @@
         android:visibility="visible"
         android:layout_gravity="center"/>
 
+    <TextView
+        android:text="Proj. by Arthur Sarkisyan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvProjBy"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="550dp"/>
+
 </FrameLayout>

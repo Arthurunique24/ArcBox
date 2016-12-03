@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirechatUser;
-    private Button mSendButton;
 
     private String mUsername;
     private String mPhotoUrl;
@@ -59,24 +58,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        //here mGoogleApiClient
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
-
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirechatUser = mFirebaseAuth.getCurrentUser();
         if (mFirechatUser == null) {
             startActivity(new Intent(this, AuthorizationActivity.class));
-            finish();
-            return;
+            //finish();
+            //return;
         } else {
             mUsername = mFirechatUser.getDisplayName();
             if (mFirechatUser.getPhotoUrl() != null) {
                 mPhotoUrl = mFirechatUser.getPhotoUrl().toString();
             }
         }
-
     }
 
 
@@ -89,15 +87,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         switch (item.getItemId()) {
             case R.id.sign_out_menu:
                 mFirebaseAuth.signOut();
@@ -105,9 +94,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 mUsername = DEFAULT_NAME;
                 startActivity(new Intent(this, AuthorizationActivity.class));
                 return true;
-            /*case R.id.reconfig:
-                fetchConfig();
-                return true;*/
         }
         return super.onOptionsItemSelected(item);
     }
