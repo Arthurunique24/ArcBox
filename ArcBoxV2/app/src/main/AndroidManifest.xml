@@ -19,8 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Tab1Activity" />
-        <activity android:name=".Tab2Activity" />
-        <activity android:name=".Tab3Activity" />
+        <activity android:name=".FormActivity" />
+        <activity android:name=".ChatActivity" />
         <activity android:name=".AuthorizationActivity"></activity>
     </application>
 

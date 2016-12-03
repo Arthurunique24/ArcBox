@@ -3,8 +3,6 @@ package com.example.arthur.arcboxv2;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -13,21 +11,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
@@ -140,10 +132,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     Tab1Activity tab1 = new Tab1Activity();
                     return tab1;
                 case 1:
-                    Tab2Activity tab2 = new Tab2Activity();
+                    FormActivity tab2 = new FormActivity();
                     return tab2;
                 case 2:
-                    Tab3Activity tab3 = new Tab3Activity();
+                    ChatActivity tab3 = new ChatActivity();
                     return tab3;
                 default:
                     return null;
@@ -160,43 +152,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Orders";
                 case 1:
-                    return "SECTION 2";
+                    return "Form";
                 case 2:
-                    return "SECTION 3";
+                    return "Chat";
             }
             return null;
         }
     }
 
-
-    public void fetchConfig() {
-        long cacheExpiration = 3600; // 1 hour in seconds
-        // If developer mode is enabled reduce cacheExpiration to 0 so that
-        // each fetch goes to the server. This should not be used in release
-        // builds.
-        if (mFirebaseRemoteConfig.getInfo().getConfigSettings()
-                .isDeveloperModeEnabled()) {
-            cacheExpiration = 0;
-        }
-        mFirebaseRemoteConfig.fetch(cacheExpiration)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // Make the fetched config available via
-                        // FirebaseRemoteConfig get<type> calls.
-                        mFirebaseRemoteConfig.activateFetched();
-                        mSendButton.setText(mFirebaseRemoteConfig.getString("button_name"));
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        mSendButton.setText(mFirebaseRemoteConfig.getString("button_name"));
-                    }
-                });
-    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
