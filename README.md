@@ -20,7 +20,7 @@
 ###Разбор кода приложения
 Приложение состоит из трех вкладок: "How to use?", "FORM" и "CHAT". Функциональность описана выше. 
 
-**AuthorizationActivity.java - класс отвечающий за авторизацию в приложении**
+**AuthorizationActivity.java - класс, отвечающий за авторизацию в приложении**
 
     public class AuthorizationActivity extends AppCompatActivity implements
             GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
@@ -116,7 +116,7 @@
         }
     }
     
-**ChatActivity.java - класс отвечающий за окно чата**
+**ChatActivity.java - класс, отвечающий за окно чата**
 
 public class ChatActivity extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -242,7 +242,7 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
         }
     }
     
-**ChatMessage.java - класс для работы с сообщениями в чате**
+**ChatMessage.java - класс, для работы с сообщениями в чате**
 public class ChatMessage {
 
         private String text;
@@ -283,7 +283,7 @@ public class ChatMessage {
         }
     }
     
-**DBHelper.java - класс отвечающий за создание SQLite базы данных(Подключается опционально)**
+**DBHelper.java - класс, отвечающий за создание SQLite базы данных(Подключается опционально)**
 public class DBHelper extends SQLiteOpenHelper {
 
         public static final int DATABASE_VERSION = 1;
@@ -319,7 +319,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-**FormActivity.java класс отвечающий за вкладку регистрации товара**
+**FormActivity.java класс, отвечающий за вкладку регистрации товара**
 
     public class FormActivity extends Fragment implements View.OnClickListener{
 
@@ -469,7 +469,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
     
-**MainActivity.java - класс отвечающий за создание вкладок**
+**MainActivity.java - класс, отвечающий за создание вкладок**
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
 
@@ -602,7 +602,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     }
     
-**SimpleFirechatInstanceIdService.java и SimpleFirechatMessagingService.java - классы для отправки уведомлений на телефон**
+**SimpleFirechatInstanceIdService.java и SimpleFirechatMessagingService.java - классы, для отправки уведомлений на телефон**
 
     public class SimpleFirechatInstanceIdService extends FirebaseInstanceIdService {
 
@@ -630,7 +630,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     }
     
-**Tab1HowToUse.java - класс для создания окна с инструкциями**
+**Tab1HowToUse.java - класс, для создания окна с инструкциями**
 public class Tab1HowToUse extends Fragment {
 
         TextView tvHowToUse;
