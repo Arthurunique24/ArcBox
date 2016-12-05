@@ -52,7 +52,6 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
         Toast.makeText(getActivity(), "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 
-
     public static class FirechatMsgViewHolder extends RecyclerView.ViewHolder {
         public TextView msgTextView;
         public TextView userTextView;
@@ -85,7 +84,6 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
             }
         }
 
-
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         mMessageRecyclerView = (RecyclerView) rootView.findViewById(R.id.messageRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
@@ -116,8 +114,6 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
                             .into(viewHolder.userImageView);
                 }
             }
-
-
         };
 
         mMsgEditText = (EditText) rootView.findViewById(R.id.msgEditText);
