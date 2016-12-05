@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -115,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    Tab1Activity tab1 = new Tab1Activity();
+                    Tab1HowToUse tab1 = new Tab1HowToUse();
                     return tab1;
                 case 1:
                     FormActivity tab2 = new FormActivity();
@@ -138,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Orders";
+                    return "How to use?";
                 case 1:
                     return "Form";
                 case 2:

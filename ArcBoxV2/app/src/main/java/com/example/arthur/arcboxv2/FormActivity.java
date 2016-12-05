@@ -11,7 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class FormActivity extends Fragment implements View.OnClickListener{
 
@@ -19,6 +23,7 @@ public class FormActivity extends Fragment implements View.OnClickListener{
 
     Button btnAdd, btnRead, btnClean, btnUpdate, btnDel;
     EditText edId, edName, edWeight, edFrom, edTo, edFIO, edEmail, edPhone;
+    TextView tvWait;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,7 +34,7 @@ public class FormActivity extends Fragment implements View.OnClickListener{
         btnAdd = (Button) rootView.findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(this);
         //btnAdd.setEnabled(true);
-        btnRead = (Button) rootView.findViewById(R.id.btnRead);
+        /*btnRead = (Button) rootView.findViewById(R.id.btnRead);
         btnRead.setOnClickListener(this);
 
         btnClean = (Button) rootView.findViewById(R.id.btnClean);
@@ -39,9 +44,9 @@ public class FormActivity extends Fragment implements View.OnClickListener{
         btnUpdate.setOnClickListener(this);
 
         btnDel = (Button) rootView.findViewById(R.id.btnDel);
-        btnDel.setOnClickListener(this);
+        btnDel.setOnClickListener(this);*/
 
-        edId = (EditText) rootView.findViewById(R.id.edId);
+        //edId = (EditText) rootView.findViewById(R.id.edId);
         edName = (EditText) rootView.findViewById(R.id.edName);
         edWeight = (EditText) rootView.findViewById(R.id.edWeight);
         edFrom = (EditText) rootView.findViewById(R.id.edFrom);
@@ -50,16 +55,17 @@ public class FormActivity extends Fragment implements View.OnClickListener{
         edEmail = (EditText) rootView.findViewById(R.id.edEmail);
         edPhone = (EditText) rootView.findViewById(R.id.edPhone);
 
+        tvWait = (TextView) rootView.findViewById(R.id.tvWait);
+
         getActivity();
         dbHelper = new DBHelper(getActivity());
 
         return rootView;
     }
 
-
     @Override
     public void onClick(View v) {
-        String id = edId.getText().toString();
+        //String id = edId.getText().toString();
         String name = edName.getText().toString();
         String weight = edWeight.getText().toString();
         String from = edFrom.getText().toString();
@@ -88,9 +94,26 @@ public class FormActivity extends Fragment implements View.OnClickListener{
                 contentValues.put(DBHelper.KEY_EMAIL, email);
                 contentValues.put(DBHelper.KEY_PHONE, phone);
                 database.insert(DBHelper.TABLE_ORDER, null, contentValues);
+
+                FirebaseDatabase databases = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = databases.getReference("Order - " + edName.getText().toString());
+                myRef.setValue(weight + " "
+                        + from + " "
+                        + to + " "
+                        + fio + " "
+                        + email + " "
+                        + phone + ".");
+                edName.setText(" ");
+                edWeight.setText(" ");
+                edFrom.setText(" ");
+                edTo.setText(" ");
+                edFIO.setText(" ");
+                edEmail.setText(" ");
+                edPhone.setText(" ");
+                tvWait.setText("Заказ оформлен! Ожидайте ответ от оператора.");
                 break;
 
-            case R.id.btnRead:
+            /*case R.id.btnRead:
                 Cursor cursor = database.query(DBHelper.TABLE_ORDER, null, null, null, null, null, null);
                 if(cursor.moveToFirst()){
                     int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
@@ -140,7 +163,7 @@ public class FormActivity extends Fragment implements View.OnClickListener{
                     break;
                 }
                 int delCount = database.delete(DBHelper.TABLE_ORDER, DBHelper.KEY_ID + "= ?", new String[] {id});
-                Log.d("mLog", "Deleted rows count = " + delCount);
+                Log.d("mLog", "Deleted rows count = " + delCount);*/
         }
 
     }

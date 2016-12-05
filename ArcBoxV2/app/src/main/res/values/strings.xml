@@ -2,4 +2,17 @@
     <string name="app_name">ArcBoxV2</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="sendBtn">SEND</string>
+    <string name="hello">Hello</string>
+    <string name="authorize_please">Authorize please</string>
+    <string name="proj_by">Proj. by Arthur Sarkisyan</string>
+    <string name="addBtn">Add</string>
+    <string name="sign_out_menu">Sign Out</string>
+    <string name="edName">Описание товара</string>
+    <string name="edWeight">Вес (В граммах)</string>
+    <string name="edFrom">Откуда</string>
+    <string name="edTo">Куда</string>
+    <string name="edFullName">ФИО</string>
+    <string name="edEmail">Email</string>
+    <string name="edPhoneNum">Номер телефона</string>
 </resources>

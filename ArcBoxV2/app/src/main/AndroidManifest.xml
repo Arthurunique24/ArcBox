@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Tab1Activity" />
+        <activity android:name=".Tab1HowToUse" />
         <activity android:name=".FormActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".AuthorizationActivity"></activity>
