@@ -121,13 +121,15 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChatMessage friendlyMessage = new
-                        ChatMessage(mMsgEditText.getText().toString(),
-                        mUsername,
-                        mPhotoUrl);
-                mSimpleFirechatDatabaseReference.child("messages")
-                        .push().setValue(friendlyMessage);
-                mMsgEditText.setText("");
+                if(!Objects.equals(mMsgEditText.getText().toString(), "")){
+                    ChatMessage friendlyMessage = new
+                            ChatMessage(mMsgEditText.getText().toString(),
+                            mUsername,
+                            mPhotoUrl);
+                    mSimpleFirechatDatabaseReference.child("messages")
+                            .push().setValue(friendlyMessage);
+                    mMsgEditText.setText("");
+                } else Toast.makeText(getActivity(), "Incorrect message", Toast.LENGTH_SHORT).show();
             }
         });
 
