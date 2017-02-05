@@ -29,6 +29,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Objects;
+
 public class ChatActivity extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
     private DatabaseReference mSimpleFirechatDatabaseReference;

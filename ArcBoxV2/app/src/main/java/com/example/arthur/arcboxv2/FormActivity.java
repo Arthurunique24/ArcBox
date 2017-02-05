@@ -14,6 +14,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -21,8 +24,8 @@ public class FormActivity extends Fragment implements View.OnClickListener{
 
     DBHelper dbHelper;
 
-    Button btnAdd, btnRead, btnClean, btnUpdate, btnDel;
-    EditText edId, edName, edWeight, edFrom, edTo, edFIO, edEmail, edPhone;
+    Button btnAdd;
+    EditText edName, edWeight, edFrom, edTo, edFIO, edEmail, edPhone;
     TextView tvWait;
 
     @Override
@@ -30,23 +33,9 @@ public class FormActivity extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_form, container, false);
 
-
         btnAdd = (Button) rootView.findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(this);
-        //btnAdd.setEnabled(true);
-        /*btnRead = (Button) rootView.findViewById(R.id.btnRead);
-        btnRead.setOnClickListener(this);
 
-        btnClean = (Button) rootView.findViewById(R.id.btnClean);
-        btnClean.setOnClickListener(this);
-
-        btnUpdate = (Button) rootView.findViewById(R.id.btnUpdate);
-        btnUpdate.setOnClickListener(this);
-
-        btnDel = (Button) rootView.findViewById(R.id.btnDel);
-        btnDel.setOnClickListener(this);*/
-
-        //edId = (EditText) rootView.findViewById(R.id.edId);
         edName = (EditText) rootView.findViewById(R.id.edName);
         edWeight = (EditText) rootView.findViewById(R.id.edWeight);
         edFrom = (EditText) rootView.findViewById(R.id.edFrom);
@@ -54,18 +43,15 @@ public class FormActivity extends Fragment implements View.OnClickListener{
         edFIO = (EditText) rootView.findViewById(R.id.edFIO);
         edEmail = (EditText) rootView.findViewById(R.id.edEmail);
         edPhone = (EditText) rootView.findViewById(R.id.edPhone);
-
         tvWait = (TextView) rootView.findViewById(R.id.tvWait);
 
         getActivity();
-        dbHelper = new DBHelper(getActivity());
 
         return rootView;
     }
 
     @Override
     public void onClick(View v) {
-        //String id = edId.getText().toString();
         String name = edName.getText().toString();
         String weight = edWeight.getText().toString();
         String from = edFrom.getText().toString();
@@ -73,10 +59,6 @@ public class FormActivity extends Fragment implements View.OnClickListener{
         String fio = edFIO.getText().toString();
         String email = edEmail.getText().toString();
         String phone = edPhone.getText().toString();
-
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
-        //Add items
-        ContentValues contentValues = new ContentValues();
 
         switch (v.getId()){
             case R.id.btnAdd:
@@ -86,84 +68,39 @@ public class FormActivity extends Fragment implements View.OnClickListener{
                     Toast.makeText(getActivity(), "Incorrect ", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                contentValues.put(DBHelper.KEY_NAME, name);
-                contentValues.put(DBHelper.KEY_WEIGHT, weight);
-                contentValues.put(DBHelper.KEY_FROM, from);
-                contentValues.put(DBHelper.KEY_TO, to);
-                contentValues.put(DBHelper.KEY_FIO, fio);
-                contentValues.put(DBHelper.KEY_EMAIL, email);
-                contentValues.put(DBHelper.KEY_PHONE, phone);
-                database.insert(DBHelper.TABLE_ORDER, null, contentValues);
-
                 FirebaseDatabase databases = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = databases.getReference("Order - " + edName.getText().toString());
+                DatabaseReference myRef = databases.getReference("Order - " + name);
                 myRef.setValue(weight + " "
                         + from + " "
                         + to + " "
                         + fio + " "
                         + email + " "
                         + phone + ".");
-                edName.setText(" ");
-                edWeight.setText(" ");
-                edFrom.setText(" ");
-                edTo.setText(" ");
-                edFIO.setText(" ");
-                edEmail.setText(" ");
-                edPhone.setText(" ");
+                edName.setText("");
+                edWeight.setText("");
+                edFrom.setText("");
+                edTo.setText("");
+                edFIO.setText("");
+                edEmail.setText("");
+                edPhone.setText("");
                 tvWait.setText("Заказ оформлен! Ожидайте ответ от оператора.");
-                break;
 
-            /*case R.id.btnRead:
-                Cursor cursor = database.query(DBHelper.TABLE_ORDER, null, null, null, null, null, null);
-                if(cursor.moveToFirst()){
-                    int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-                    int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
-                    int weightIndex = cursor.getColumnIndex(DBHelper.KEY_WEIGHT);
-                    int fromIndex = cursor.getColumnIndex(DBHelper.KEY_FROM);
-                    int toIndex = cursor.getColumnIndex(DBHelper.KEY_TO);
-                    int fioIndex = cursor.getColumnIndex(DBHelper.KEY_FIO);
-                    int emailIndex = cursor.getColumnIndex(DBHelper.KEY_EMAIL);
-                    int phoneIndex = cursor.getColumnIndex(DBHelper.KEY_PHONE);
-                    do {
-                        Log.d("mLog", "ID = " + cursor.getInt(idIndex)
-                                + ", Description = " + cursor.getString(nameIndex)
-                                + ", Weight = " + cursor.getString(weightIndex)
-                                + ", From = " + cursor.getString(fromIndex)
-                                + ", To = " + cursor.getString(toIndex)
-                                + ", FIO = " + cursor.getString(fioIndex)
-                                + ", Email = " + cursor.getString(emailIndex)
-                                + ", Phone = " + cursor.getString(phoneIndex));
-
-                    } while (cursor.moveToNext());
-                } else Log.d("mLog", "0 rows");
-                cursor.close();
+                DatabaseReference mSimpleFirechatDatabaseReference = FirebaseDatabase.getInstance().getReference();
+                FirebaseAuth mFirebaseAuth = mFirebaseAuth = FirebaseAuth.getInstance();
+                FirebaseUser mFirechatUser = mFirechatUser = mFirebaseAuth.getCurrentUser();
+                String mPhotoUrl = mFirechatUser.getPhotoUrl().toString();
+                ChatMessage friendlyMessage = new
+                        ChatMessage("Hello, your order is: " + name + " " + weight + " "
+                        + from + " "
+                        + to + " "
+                        + fio + " "
+                        + email + " "
+                        + phone + ".",
+                        "Order helper",
+                        "");
+                mSimpleFirechatDatabaseReference.child("messages")
+                        .push().setValue(friendlyMessage);
                 break;
-
-            case R.id.btnClean:
-                database.delete(DBHelper.TABLE_ORDER, null, null);
-                break;
-            case R.id.btnUpdate:
-                if(id.equalsIgnoreCase("")){
-                    Toast.makeText(getActivity(), "incorrect id", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                contentValues.put(DBHelper.KEY_NAME, name);
-                contentValues.put(DBHelper.KEY_WEIGHT, weight);
-                contentValues.put(DBHelper.KEY_FROM, from);
-                contentValues.put(DBHelper.KEY_TO, to);
-                contentValues.put(DBHelper.KEY_FIO, fio);
-                contentValues.put(DBHelper.KEY_EMAIL, email);
-                contentValues.put(DBHelper.KEY_PHONE, phone);
-                int updCount = database.update(DBHelper.TABLE_ORDER, contentValues, DBHelper.KEY_ID + "= ?", new String[] {id});
-                Log.d("mLog", "Updates rows count = " + updCount);
-                break;
-            case R.id.btnDel:
-                if (id.equalsIgnoreCase("")){
-                    Toast.makeText(getActivity(), "incorrect id", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                int delCount = database.delete(DBHelper.TABLE_ORDER, DBHelper.KEY_ID + "= ?", new String[] {id});
-                Log.d("mLog", "Deleted rows count = " + delCount);*/
         }
 
     }
