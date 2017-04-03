@@ -22,8 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class FormActivity extends Fragment implements View.OnClickListener{
 
-    DBHelper dbHelper;
-
     Button btnAdd;
     EditText edName, edWeight, edFrom, edTo, edFIO, edEmail, edPhone;
     TextView tvWait;

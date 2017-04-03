@@ -1,19 +1,17 @@
 package com.example.arthur.arcboxv2;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -93,6 +91,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 mUsername = DEFAULT_NAME;
                 startActivity(new Intent(this, AuthorizationActivity.class));
                 return true;
+            /*case R.id.action_settings:
+                Intent intent = new Intent(this, Tab1HowToUse.class);
+                startActivity(intent);
+                return true;*/
         }
         return super.onOptionsItemSelected(item);
     }
@@ -113,15 +115,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case 0:
+                /*case 0:
                     Tab1HowToUse tab1 = new Tab1HowToUse();
+                    return tab1;*/
+                case 0:
+                    FormActivity tab1 = new FormActivity();
                     return tab1;
                 case 1:
-                    FormActivity tab2 = new FormActivity();
+                    ChatActivity tab2 = new ChatActivity();
                     return tab2;
-                case 2:
-                    ChatActivity tab3 = new ChatActivity();
-                    return tab3;
                 default:
                     return null;
             }
@@ -130,17 +132,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
+                //case 0:
+                    //return "How to use?";
                 case 0:
-                    return "How to use?";
-                case 1:
                     return "Form";
-                case 2:
+                case 1:
                     return "Chat";
             }
             return null;
