@@ -66,39 +66,43 @@ public class FormActivity extends Fragment implements View.OnClickListener{
                     Toast.makeText(getActivity(), "Incorrect ", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                FirebaseDatabase databases = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = databases.getReference("Order - " + name);
-                myRef.setValue(weight + " "
-                        + from + " "
-                        + to + " "
-                        + fio + " "
-                        + email + " "
-                        + phone + ".");
-                edName.setText("");
-                edWeight.setText("");
-                edFrom.setText("");
-                edTo.setText("");
-                edFIO.setText("");
-                edEmail.setText("");
-                edPhone.setText("");
-                tvWait.setText("Заказ оформлен! Ожидайте ответ от оператора.");
+                else {
+                    FirebaseDatabase databases = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = databases.getReference("Order - " + name);
+                    myRef.setValue(weight + " "
+                            + from + " "
+                            + to + " "
+                            + fio + " "
+                            + email + " "
+                            + phone + ".");
+                    edName.setText("");
+                    edWeight.setText("");
+                    edFrom.setText("");
+                    edTo.setText("");
+                    edFIO.setText("");
+                    edEmail.setText("");
+                    edPhone.setText("");
+                    tvWait.setText("The order was placed! Expect a call from the operator.");
 
-                DatabaseReference mSimpleFirechatDatabaseReference = FirebaseDatabase.getInstance().getReference();
-                FirebaseAuth mFirebaseAuth = mFirebaseAuth = FirebaseAuth.getInstance();
-                FirebaseUser mFirechatUser = mFirechatUser = mFirebaseAuth.getCurrentUser();
-                String mPhotoUrl = mFirechatUser.getPhotoUrl().toString();
-                ChatMessage friendlyMessage = new
-                        ChatMessage("Hello, your order is: " + name + " " + weight + " "
-                        + from + " "
-                        + to + " "
-                        + fio + " "
-                        + email + " "
-                        + phone + ".",
-                        "Order helper",
-                        "");
-                mSimpleFirechatDatabaseReference.child("messages")
-                        .push().setValue(friendlyMessage);
+                    DatabaseReference mSimpleFirechatDatabaseReference = FirebaseDatabase.getInstance().getReference();
+                    FirebaseAuth mFirebaseAuth = mFirebaseAuth = FirebaseAuth.getInstance();
+                    FirebaseUser mFirechatUser = mFirechatUser = mFirebaseAuth.getCurrentUser();
+                    assert mFirechatUser != null;
+                    String mPhotoUrl = mFirechatUser.getPhotoUrl().toString();
+                    ChatMessage friendlyMessage = new
+                            ChatMessage("Hello, your order is: " + name + " " + weight + " "
+                            + from + " "
+                            + to + " "
+                            + fio + " "
+                            + email + " "
+                            + phone + ".",
+                            "Order helper",
+                            "https://api.adorable.io/avatars/285/abott@adorable.png");
+                    mSimpleFirechatDatabaseReference.child("messages")
+                            .push().setValue(friendlyMessage);
+                }
                 break;
+
         }
 
     }

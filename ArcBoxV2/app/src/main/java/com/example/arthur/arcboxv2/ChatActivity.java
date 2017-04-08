@@ -45,7 +45,6 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
     private String mPhotoUrl;
     private EditText mMsgEditText;
 
-    private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirechatUser;
 
@@ -54,7 +53,7 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
         Toast.makeText(getActivity(), "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 
-    public static class FirechatMsgViewHolder extends RecyclerView.ViewHolder {
+    private static class FirechatMsgViewHolder extends RecyclerView.ViewHolder {
         public TextView msgTextView;
         public TextView userTextView;
         public CircleImageView userImageView;
