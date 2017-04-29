@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">ArcBox_0.1.3</string>
+    <string name="title_chat">Chat</string>
+    <string name="title_form">Form</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="authorize_please">Authorize please</string>
+    <string name="proj_by">Proj. by Arthur Sarkisyan</string>
+
+    <string name="addBtn">Add</string>
+    <string name="edName">Описание товара</string>
+    <string name="edWeight">Вес (В граммах)</string>
+    <string name="edFrom">Откуда</string>
+    <string name="edTo">Куда</string>
+    <string name="edFullName">ФИО</string>
+    <string name="edEmail">Email</string>
+    <string name="edPhoneNum">Номер телефона</string>
+    <string name="orderWasPlaced">The order was placed! Expect a call from the operator.</string>
+</resources>
