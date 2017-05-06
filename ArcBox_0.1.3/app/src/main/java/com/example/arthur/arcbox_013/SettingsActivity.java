@@ -7,22 +7,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-public class ChatActivity extends Fragment {
+public class SettingsActivity extends Fragment {
 
-    public static final String TAG = "ChatFragmentTag";
-
-    TextView textView;
+    public static final String TAG = "SettingsFragmentTag";
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_chat, container, false);
-
+        View rootView = inflater.inflate(R.layout.activity_settings, container, false);
 
         getActivity();
         return rootView;
-        //return super.onCreateView(inflater, container, savedInstanceState);
     }
 }

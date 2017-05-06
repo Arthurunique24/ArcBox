@@ -4,17 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.arthur.arcbox_013.SupportClasses.BottomNavigationViewHelper;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -31,11 +28,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private ChatActivity chatActivity;
     private FormActivity formActivity;
+    private AccountActivity accountActivity;
+    private SettingsActivity settingsActivity;
 
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
-    public static final String DEFAULT_NAME = "Arthur";
+    public static final String DEFAULT_NAME = "User";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +47,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         //Initialization fragments
         chatActivity = new ChatActivity();
         formActivity = new FormActivity();
+        accountActivity = new AccountActivity();
+        settingsActivity = new SettingsActivity();
 
         //Set activity_chat like basic
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, chatActivity, ChatActivity.TAG);
         fragmentTransaction.commit();
 
+        //Buttom Navigation View initialization
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        //DisableShiftMode from BottomNavigationView
+        BottomNavigationViewHelper.disableShiftMode(navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //here mGoogleApiClient
@@ -74,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 mPhotoUrl = mFirechatUser.getPhotoUrl().toString();
             }
         }
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -85,16 +90,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             fragmentTransaction = fragmentManager.beginTransaction();
 
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.navigation_chat:
                     fragmentTransaction.replace(R.id.container, chatActivity, ChatActivity.TAG);
                     fragmentTransaction.commit();
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_form:
                     fragmentTransaction.replace(R.id.container, formActivity, FormActivity.TAG);
                     fragmentTransaction.commit();
                     return true;
-                case R.id.navigation_notifications:
-                    return true;
+                //case R.id.navigation_notifications:
+                    //return true;
+                case R.id.navigation_account:
+                    fragmentTransaction.replace(R.id.container, accountActivity, AccountActivity.TAG);
+                    fragmentTransaction.commit();
             }
             return false;
         }
@@ -117,10 +125,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 mUsername = DEFAULT_NAME;
                 startActivity(new Intent(this, AuthorizationActivity.class));
                 return true;
-            /*case R.id.action_settings:
-                Intent intent = new Intent(this, Tab1HowToUse.class);
-                startActivity(intent);
-                return true;*/
+            case R.id.action_settings:
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container, settingsActivity, AccountActivity.TAG);
+                fragmentTransaction.commit();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -129,4 +138,5 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
+
 }

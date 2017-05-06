@@ -20,7 +20,9 @@
         </activity>
         <activity android:name=".FormActivity" />
         <activity android:name=".ChatActivity" />
-        <activity android:name=".AuthorizationActivity"></activity>
+        <activity android:name=".AuthorizationActivity" />
+        <activity android:name=".AccountActivity" />
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>

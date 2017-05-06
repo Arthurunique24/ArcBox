@@ -11,6 +11,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.arthur.arcbox_013.SupportClasses.InitialiseUser;
+import com.firebase.client.Firebase;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -23,7 +25,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class AuthorizationActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
@@ -39,17 +44,18 @@ public class AuthorizationActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
 
-        anim = AnimationUtils.loadAnimation(this, R.anim.myalpha);
         TextView tvHello, tvAuth, tvProjBy;
         tvHello = (TextView) findViewById(R.id.tvHello);
         tvAuth = (TextView) findViewById(R.id.tvAuth);
         tvProjBy = (TextView) findViewById(R.id.tvProjBy);
+        mAuthButton = (SignInButton) findViewById(R.id.auth_button);
+        mAuthButton.setOnClickListener(this);
+
+        //Set animation
+        anim = AnimationUtils.loadAnimation(this, R.anim.myalpha);
         tvHello.startAnimation(anim);
         tvAuth.startAnimation(anim);
         tvProjBy.startAnimation(anim);
-
-        mAuthButton = (SignInButton) findViewById(R.id.auth_button);
-        mAuthButton.setOnClickListener(this);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
 
@@ -107,11 +113,26 @@ public class AuthorizationActivity extends AppCompatActivity implements
                             Toast.makeText(AuthorizationActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            InitialiseUserInFireBase();
                             startActivity(new Intent(AuthorizationActivity.this, MainActivity.class));
                             finish();
                         }
                     }
                 });
+    }
+
+    private void InitialiseUserInFireBase(){
+        DatabaseReference mSimpleDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        assert firebaseUser != null;
+        String mPhotoUrl = firebaseUser.getPhotoUrl().toString();
+        String user = firebaseUser.getDisplayName();
+        InitialiseUser initialiseUser = new InitialiseUser("OrdersContractCouriers", "OrdersFreeCourirs",
+                "CompletedOrders",
+                "Chat");
+        assert user != null;
+        mSimpleDatabaseReference.child(user).push().setValue(initialiseUser);
     }
 
     @Override
