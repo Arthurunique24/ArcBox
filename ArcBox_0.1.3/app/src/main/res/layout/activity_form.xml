@@ -19,60 +19,28 @@
             android:id="@+id/EdLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="vertical">
 
-            <EditText
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/edName"
-                android:hint="@string/edName" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edWeight"
-                android:layout_below="@+id/edName"
-                android:hint="@string/edWeight" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:text="Order more than 300 rub."/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edFrom"
-                android:layout_below="@+id/edWeight"
-                android:hint="@string/edFrom"/>
+                <Switch
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginRight="5dp"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:id="@+id/edTo"
-                android:layout_below="@+id/edFrom"
-                android:hint="@string/edTo"/>
+            </LinearLayout>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:id="@+id/edFIO"
-                android:layout_below="@+id/edTo"
-                android:hint="@string/edFullName"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:id="@+id/edEmail"
-                android:layout_below="@+id/edFIO"
-                android:hint="@string/edEmail"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:id="@+id/edPhone"
-                android:layout_below="@+id/edEmail"
-                android:hint="@string/edPhoneNum"/>
 
         </LinearLayout>
         <LinearLayout

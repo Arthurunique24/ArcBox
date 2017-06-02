@@ -98,11 +98,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     fragmentTransaction.replace(R.id.container, formActivity, FormActivity.TAG);
                     fragmentTransaction.commit();
                     return true;
-                //case R.id.navigation_notifications:
-                    //return true;
+                case R.id.navigation_notifications:
+                    return true;
                 case R.id.navigation_account:
                     fragmentTransaction.replace(R.id.container, accountActivity, AccountActivity.TAG);
                     fragmentTransaction.commit();
+                    return true;
             }
             return false;
         }
@@ -139,4 +140,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        //Override button back to exit the app
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
 }

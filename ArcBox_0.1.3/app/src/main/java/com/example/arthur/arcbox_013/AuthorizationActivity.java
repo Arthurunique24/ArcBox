@@ -11,8 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.arthur.arcbox_013.SupportClasses.InitialiseUser;
-import com.firebase.client.Firebase;
+import com.example.arthur.arcbox_013.SupportClasses.ChatMessage;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -27,8 +26,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 public class AuthorizationActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
@@ -58,7 +62,6 @@ public class AuthorizationActivity extends AppCompatActivity implements
         tvProjBy.startAnimation(anim);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -121,22 +124,78 @@ public class AuthorizationActivity extends AppCompatActivity implements
                 });
     }
 
+    //Initialize user data in Firebase
     private void InitialiseUserInFireBase(){
+        final DatabaseReference mSimpleDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        assert firebaseUser != null;
+        //String mPhotoUrl = firebaseUser.getPhotoUrl().toString();
+        final String user = firebaseUser.getDisplayName();
+        assert user != null;
+
+        mSimpleDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(user)){
+                    Toast.makeText(AuthorizationActivity.this, "Already have user data", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    addUserDataInFirebase("OrdersContractCouriers", "First order with contract Couriers");
+                    addUserDataInFirebase("OrdersFreeCouriers", "First order with free Couriers");
+                    addUserDataInFirebase("CompletedOrders", "First order with free Couriers");
+
+
+                    ChatMessage chatMessage = new ChatMessage("Welcome to ArcBox", "ArcBox Team", "https://api.adorable.io/avatars/285/abott@adorable.png");
+                    DatabaseReference mSimpleDatabaseReference = FirebaseDatabase.getInstance().getReference();
+                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                    String user = firebaseUser.getDisplayName();
+                    assert user != null;
+
+                    mSimpleDatabaseReference.child(user + "/" + "Chat").push().setValue(chatMessage);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    //Function that add new branch in user data
+    private void addUserDataInFirebase(String branch, String FirstData){
         DatabaseReference mSimpleDatabaseReference = FirebaseDatabase.getInstance().getReference();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         assert firebaseUser != null;
-        String mPhotoUrl = firebaseUser.getPhotoUrl().toString();
+        //String mPhotoUrl = firebaseUser.getPhotoUrl().toString();
         String user = firebaseUser.getDisplayName();
-        InitialiseUser initialiseUser = new InitialiseUser("OrdersContractCouriers", "OrdersFreeCourirs",
-                "CompletedOrders",
-                "Chat");
         assert user != null;
-        mSimpleDatabaseReference.child(user).push().setValue(initialiseUser);
+
+        mSimpleDatabaseReference.child(user + "/" + branch).push().setValue(FirstData, new DatabaseReference.CompletionListener(){
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if(databaseError!= null)
+                    Toast.makeText(AuthorizationActivity.this, databaseError.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        //Override button back to exit the app
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }
